@@ -1,18 +1,22 @@
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
-
-const uri = 'mongodb://localhost:27017/moodflixify';
-const client = new MongoClient(uri);
+const mongoose = require("mongoose");
+require('dotenv').config({path: "./.env"});
 
 async function connectDB(){
+    const MONGO_URI = process.env.MONGO_URI;
+    if(!MONGO_URI){
+        throw new Error("MongoDB URI is missing or not defined in .env file");
+    }
     try{
-        await client.connect();
-        console.log('Connected!');
-        return client.db('moodflixify');
+        await mongoose.connect(MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("MongoDB Connected");
+        return mongoose.connection;
     }
     catch(error){
-        console.log('MongoDB connection error:', error.message);
-        process.exit(1);
+        console.error("MongoDB connection error", error);
+        throw error;
     }
 }
 
