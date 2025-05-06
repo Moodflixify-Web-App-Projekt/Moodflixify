@@ -8,4 +8,4 @@ const movieSchema = new mongoose.Schema({
     tmdb_id: {type: Number, unique: true},
 });
 
-module.exports = mogoose.model('Movie', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema);

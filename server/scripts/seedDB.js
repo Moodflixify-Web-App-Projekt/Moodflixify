@@ -26,4 +26,9 @@ const seedDB = async () => {
 
 };
 
-seedDB();
+seedDB().then(() => {
+    console.log('Database connected');
+}).catch(error => {
+    console.error('Error while trying to connect to MongoDB', error);
+    process.exit(1);
+});
