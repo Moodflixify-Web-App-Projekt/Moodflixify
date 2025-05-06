@@ -8,10 +8,9 @@ const moodRoutes = require('./routes/moodRoutes');
 const app = express();
 
 connectDB().then(() => {
-    console.log('Database connected');
-}).catch(error => {
-    console.error('Error while trying to connect to MongoDB', error);
-    process.exit(1);
+    console.log('Connected to DB');
+}).catch((error) => {
+    console.error('Error connecting to DB', error);
 });
 
 app.use(cors());
