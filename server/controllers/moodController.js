@@ -1,5 +1,5 @@
 const axios = require('axios');
-const MoodWatchlist = require('../models/moodWatchistModel');
+const MoodWatchlist = require('../models/moodWatchlistModel');
 const Movie = require('../models/movie');
 const Series = require('../models/series');
 const Song = require('../models/song');
