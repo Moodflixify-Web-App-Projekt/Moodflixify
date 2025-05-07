@@ -3,6 +3,7 @@ const MoodWatchlist = require('../models/moodWatchlistModel');
 const Movie = require('../models/movie');
 const Series = require('../models/series');
 const Song = require('../models/song');
+const moodConfig = require('../config/moodConfig');
 
 const getSpotifyToken = async () => {
     const response = await axios.post(
@@ -23,25 +24,29 @@ const getSpotifyToken = async () => {
 const getRecommendations = async (req, res) => {
     const { mood } = req.query;
     try {
-        const tmdbResponse = await axios.get(
-            `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${mood}`
+        const config = moodConfig[mood] || moodConfig['Happy'];
+
+        const tmdbMovieResponse = await axios.get(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=${config.tmdbMovieGenres}`
         );
-        const movies = tmdbResponse.data.results.slice(0, 5).map((movie) => ({
+        const movies = tmdbMovieResponse.data.results.slice(0, 5).map((movie) => ({
             tmdbId: movie.id.toString(),
             title: movie.title,
             mood,
         }));
+
         const tmdbSeriesResponse = await axios.get(
-            `https://api.themoviedb.org/3/search/tv?api_key=${process.env.TMDB_API_KEY}&query=${mood}`
+            `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.TMDB_API_KEY}&with_genres=${config.tmdbSeriesGenres}`
         );
         const series = tmdbSeriesResponse.data.results.slice(0, 5).map((item) => ({
             tmdbId: item.id.toString(),
             title: item.name,
             mood,
         }));
+
         const spotifyToken = await getSpotifyToken();
         const spotifyResponse = await axios.get(
-            `https://api.spotify.com/v1/search?q=${mood}&type=track&limit=5`,
+            `https://api.spotify.com/v1/search?q=${config.spotifyQuery}&type=track&limit=5`,
             {
                 headers: { Authorization: `Bearer ${spotifyToken}` },
             }
@@ -52,9 +57,10 @@ const getRecommendations = async (req, res) => {
             artist: track.artists[0].name,
             mood,
         }));
+
         res.json({ movies, series, songs });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching recommendations' });
+        res.status(500).json({ message: 'Error fetching recommendations', error: error.message });
     }
 };
 
@@ -65,6 +71,7 @@ const addToWatchlist = async (req, res) => {
         if (!watchlist) {
             watchlist = new MoodWatchlist({ userId: req.user.id, mood, movies: [], series: [], songs: [] });
         }
+
         if (type === 'movie') {
             const movie = new Movie({ ...item, addedBy: req.user.id });
             await movie.save();
@@ -78,6 +85,7 @@ const addToWatchlist = async (req, res) => {
             await song.save();
             watchlist.songs.push(song._id);
         }
+
         await watchlist.save();
         res.status(201).json(watchlist);
     } catch (error) {
