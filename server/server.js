@@ -19,6 +19,16 @@ connectDB().then(() => {
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Welcome to the Moodflixify API',
+        endpoints: {
+            auth: '/api/auth (register, login, profile)',
+            mood: '/api/mood (recommendations, watchlist)',
+        },
+    });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/mood', moodRoutes);
