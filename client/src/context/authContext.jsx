@@ -1,54 +1,48 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login as apiLogin, register as apiRegister } from '../services/auth.js';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { loginUser, registerUser } from '../services/auth.js';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const navigate = useNavigate();
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
         if (token) {
-            setUser({token});
+            setUser({ id: 'user_id_placeholder' }); // Simplified; fetch user data if needed
         }
-    }, []);
+    }, [token]);
 
     const login = async (email, password) => {
-        try{
-            const data = await apiLogin(email, password);
+        try {
+            const data = await loginUser(email, password);
+            setToken(data.token);
+            setUser({ id: data.user.id, username: data.user.username, email: data.user.email });
             localStorage.setItem('token', data.token);
-            setUser({ token: data.token });
-            navigate('/dashboard');
-        }
-        catch(error){
-            console.error('Login failed', error);
-            throw error;
+        } catch (error) {
+            throw new Error('Login failed');
         }
     };
 
     const register = async (username, email, password) => {
-        try{
-            const data = await apiRegister(username, email, password);
+        try {
+            const data = await registerUser(username, email, password);
+            setToken(data.token);
+            setUser({ id: data.user.id, username: data.user.username, email: data.user.email });
             localStorage.setItem('token', data.token);
-            setUser({ token: data.token });
-            navigate('/dashboard');
-        }
-        catch(error){
-            console.error('Register failed', error);
-            throw error;
+        } catch (error) {
+            throw new Error('Registration failed');
         }
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
         setUser(null);
-        navigate('/login');
+        setToken(null);
+        localStorage.removeItem('token');
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout }}>
+        <AuthContext.Provider value={{ user, token, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );

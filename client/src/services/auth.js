@@ -1,9 +1,11 @@
-import { apiCall } from './api.js';
+import api from './api.js';
 
-export const login = (email, password) => {
-    return apiCall('/api/auth/login', 'POST', { email, password });
+export const loginUser = async (email, password) => {
+    const response = await api.post('/auth/login', { email, password });
+    return response.data;
 };
 
-export const register = (username, email, password) => {
-    return apiCall('/api/auth/register', 'POST', { username, email, password });
+export const registerUser = async (username, email, password) => {
+    const response = await api.post('/auth/register', { username, email, password });
+    return response.data;
 };
