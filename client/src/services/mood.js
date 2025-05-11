@@ -1,5 +1,6 @@
-import { apiCall } from './api.js';
+import api from './api.js';
 
-export const getRecommendations = (mood, token) => {
-    return apiCall(`/api/mood/recommendations?mood=${mood}`, 'GET', null, token);
+export const getRecommendations = async (mood, token) => {
+    const response = await api.get(`/mood/recommendations?mood=${mood}`);
+    return response.data;
 };

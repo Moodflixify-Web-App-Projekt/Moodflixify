@@ -1,68 +1,278 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
+  background-color: #1A202C; /* Matches the mockup's dark background */
+  color: #FFFFFF; /* Matches the mockup's white text */
+}
+
+/* Navbar */
+nav {
+  background-color: #A3BFFA; /* Matches the mockup's navbar color */
+  padding: 16px 24px; /* Matches the mockup's spacing */
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: space-between;
+  align-items: center;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+nav a {
+  color: #FFFFFF; /* White links as per mockup */
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 16px;
+  background-color: #4A5568; /* Matches the mockup's button background */
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-button {
+nav a:hover {
+  background-color: #5A6B88; /* Slightly lighter on hover */
+}
+
+/* Welcome Container */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px); /* Adjust for navbar height */
+  padding: 24px;
+}
+
+/* Welcome Card */
+.welcome-card {
+  background-color: #4A5568; /* Matches the mockup's gray card */
+  padding: 32px; /* Matches the mockup's padding */
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  width: 100%;
+  max-width: 400px; /* Matches the mockup's card width */
+  text-align: center;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.welcome-card h1 {
+  font-size: 32px; /* Matches the mockup's title size */
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #FFFFFF;
+}
+
+.welcome-card p {
+  font-size: 16px; /* Matches the mockup's subtitle size */
+  margin-bottom: 24px;
+  color: #D3D3D3;
+}
+
+.play-button {
+  width: 60px;
+  height: 60px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: #000000;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0 auto; /* Centered */
+}
+
+.play-button:hover {
+  background-color: #E0E0E0;
+}
+
+/* Login/Register Card */
+.login-register-card {
+  background-color: #4A5568;
+  padding: 32px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 320px; /* Matches the mockup's card width */
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.login-register-card .user-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background-color: #808080;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+}
+
+.login-register-card .logo {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #FFFFFF;
+}
+
+.login-register-card h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.login-register-card label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  color: #D3D3D3;
+  font-size: 14px;
+}
+
+.login-register-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  background-color: #333333;
+  color: #FFFFFF;
+  font-size: 14px;
+}
+
+.login-register-card button {
+  width: 100%;
+  padding: 12px;
+  background-color: #FFFFFF;
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.login-register-card button:hover {
+  background-color: #E0E0E0;
+}
+
+/* Dashboard Card */
+.dashboard-card {
+  background-color: #4A5568;
+  padding: 32px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px; /* Slightly wider for dashboard */
+  text-align: center;
+  margin: 0 auto;
+}
+
+.dashboard-card h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.mood-buttons,
+.media-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.mood-buttons button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #808080;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.mood-buttons button:hover {
+  background-color: #A0A0A0;
+}
+
+.media-buttons button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #28A745; /* Green buttons as per mockup */
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s;
+}
+
+.media-buttons button:hover {
+  opacity: 0.8;
+}
+
+.media-buttons button.opacity-50 {
+  opacity: 0.5;
+}
+
+.dashboard-card .start-button {
+  padding: 12px 24px;
+  background-color: #FFFFFF;
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.dashboard-card .start-button:hover {
+  background-color: #E0E0E0;
+}
+
+/* Recommendations Grid */
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.recommendation-card {
+  background-color: #4A5568;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.recommendation-card .placeholder {
+  height: 180px; /* Matches the mockup's card height */
+  background-color: #333333;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #808080;
+  font-size: 16px;
+}
+
+.recommendation-card h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.recommendation-card p {
+  font-size: 14px;
+  color: #D3D3D3;
 }

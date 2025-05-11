@@ -1,26 +1,15 @@
-const BASE_URL = 'http://localhost:5000';
+import axios from 'axios';
 
-export const apiCall = async (endpoint, method = 'GET', body = null, token = null) => {
-    const options = {
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        ...(body && { body: JSON.stringify(body) }),
-    };
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api',
+});
 
-    try {
-        console.log(`Making API call to: ${BASE_URL}${endpoint}`);
-        const response = await fetch(`${BASE_URL}${endpoint}`, options);
-        if (!response.ok) {
-            throw new Error(`API call failed with status ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(`API response from ${endpoint}:`, data);
-        return data;
-    } catch (error) {
-        console.error(`Error in apiCall (${endpoint}):`, error);
-        throw error;
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
-};
+    return config;
+});
+
+export default api;
