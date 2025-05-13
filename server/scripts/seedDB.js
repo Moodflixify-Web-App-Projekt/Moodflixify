@@ -14,7 +14,7 @@ const seedDB = async () => {
             password: 'password123',
         });
 
-        await testUser.save();
+        await User.save(testUser);
 
         console.log('Database connected');
         process.exit(0);

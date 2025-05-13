@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
             setUser({ id: data.user.id, username: data.user.username, email: data.user.email });
             localStorage.setItem('token', data.token);
         } catch (error) {
+
             throw new Error('Login failed');
         }
     };
@@ -31,7 +32,7 @@ export function AuthProvider({ children }) {
             setUser({ id: data.user.id, username: data.user.username, email: data.user.email });
             localStorage.setItem('token', data.token);
         } catch (error) {
-            throw new Error('Registration failed');
+            throw new Error(error.response.data.message);
         }
     };
 

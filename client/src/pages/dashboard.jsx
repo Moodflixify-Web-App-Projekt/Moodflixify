@@ -110,7 +110,9 @@ function Recommendations() {
                 setError('Failed to load recommendations');
             }
         };
-        fetchData();
+        fetchData().then(() => {
+
+        });
     }, [selectedMood, user, navigate]);
 
     const filteredRecommendations = {

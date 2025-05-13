@@ -12,9 +12,11 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log(email, password);
             await login(email, password);
             navigate('/dashboard');
         } catch (err) {
+            console.log(err);
             setError('Invalid email or password');
         }
     };

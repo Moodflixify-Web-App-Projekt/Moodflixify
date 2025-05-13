@@ -10,7 +10,7 @@ exports.register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({ username, email, password: hashedPassword });
-        await user.save();
+        await User.save(user);
         const token = generateToken(user);
         res.status(201).json({ token });
     } catch (error) {
@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         const token = generateToken(user);
-        res.json({ token });
+        res.json({ token, user });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
