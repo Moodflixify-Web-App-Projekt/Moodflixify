@@ -506,11 +506,21 @@ nav a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  height: 500px;
+  background-color: grey;
+  border-radius: 12px;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
 .watchlist-grid > div {
   animation: fadeIn 0.5s ease;
   transition: transform 0.2s ease;
+  padding: 20px;
+  height: 150px;
+  width: 170px;
+  border-radius: 12px;
+  background-color: #4A5568;
 }
 
 .watchlist-grid > div:hover {
