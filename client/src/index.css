@@ -5,63 +5,178 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  background-color: #1A202C; /* Matches the mockup's dark background */
-  color: #FFFFFF; /* Matches the mockup's white text */
+  background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+  color: #FFFFFF;
+  overflow-x: hidden;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: #FFFFFF;
+  }
+  50% {
+    border-color: #e53e3e;
+  }
+  100% {
+    border-color: #FFFFFF;
+  }
 }
 
 /* Navbar */
 nav {
-  background-color: #A3BFFA; /* Matches the mockup's navbar color */
-  padding: 16px 24px; /* Matches the mockup's spacing */
+  background: linear-gradient(90deg, #A3BFFA 0%, #7F9CF5 100%);
+  padding: 12px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 64px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 nav a {
-  color: #FFFFFF; /* White links as per mockup */
+  color: #FFFFFF;
   text-decoration: none;
   font-size: 16px;
   padding: 8px 16px;
-  background-color: #4A5568; /* Matches the mockup's button background */
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.3s ease;
+  margin-right: 12px;
+}
+
+nav a:last-child {
+  margin-right: 0;
 }
 
 nav a:hover {
-  background-color: #5A6B88; /* Slightly lighter on hover */
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #5A6B88 0%, #6B7280 100%);
 }
 
-/* Welcome Container */
-.welcome-container {
+.logo {
+  width: 40px;
+  height: 40px;
+  background-color: #e53e3e;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 64px); /* Adjust for navbar height */
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFFFFF;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo:hover {
+  transform: rotate(360deg);
+  box-shadow: 0 0 10px rgba(229, 62, 62, 0.5);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 180px;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  margin-top: 8px;
+  animation: fadeIn 0.3s ease;
+  padding: 8px 0;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border-radius: 8px;
+  margin: 4px 0;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background: linear-gradient(135deg, #5A6B88 0%, #6B7280 100%);
+  transform: scale(1.02);
+}
+
+/* Centered Sections */
+.welcome-container,
+.login-register-card-container,
+.dashboard-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
   padding: 24px;
+}
+
+.login-register-card-container {
+  text-align: center;
+}
+
+.dashboard-card {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
 }
 
 /* Welcome Card */
 .welcome-card {
-  background-color: #4A5568; /* Matches the mockup's gray card */
-  padding: 32px; /* Matches the mockup's padding */
-  border-radius: 8px;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  padding: 40px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 400px; /* Matches the mockup's card width */
+  max-width: 400px;
   text-align: center;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .welcome-card h1 {
-  font-size: 32px; /* Matches the mockup's title size */
-  font-weight: bold;
-  margin-bottom: 12px;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
   color: #FFFFFF;
 }
 
 .welcome-card p {
-  font-size: 16px; /* Matches the mockup's subtitle size */
-  margin-bottom: 24px;
+  font-size: 18px;
+  margin-bottom: 32px;
   color: #D3D3D3;
 }
 
@@ -76,30 +191,30 @@ nav a:hover {
   font-size: 30px;
   color: #000000;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin: 0 auto; /* Centered */
+  transition: transform 0.3s ease;
+  margin: 0 auto;
+  animation: borderPulse 2s infinite;
 }
 
 .play-button:hover {
+  transform: scale(1.1);
   background-color: #E0E0E0;
 }
 
 /* Login/Register Card */
 .login-register-card {
-  background-color: #4A5568;
-  padding: 32px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  padding: 40px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 320px; /* Matches the mockup's card width */
-  position: relative;
+  max-width: 320px;
   text-align: center;
   margin: 0 auto;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .login-register-card .user-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
   width: 40px;
   height: 40px;
   background-color: #808080;
@@ -108,155 +223,187 @@ nav a:hover {
   align-items: center;
   justify-content: center;
   color: #FFFFFF;
+  font-size: 24px;
+  margin: 0 auto 16px;
+  transition: transform 0.3s ease;
+}
+
+.login-register-card .user-icon:hover {
+  transform: scale(1.1);
 }
 
 .login-register-card .logo {
+  width: 60px;
+  height: 60px;
+  background-color: #e53e3e;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 40px;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
   color: #FFFFFF;
 }
 
 .login-register-card h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 16px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .login-register-card label {
   display: block;
   text-align: left;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #D3D3D3;
   font-size: 14px;
 }
 
 .login-register-card input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
+  padding: 12px;
+  margin-bottom: 20px;
   border: 1px solid #808080;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #333333;
   color: #FFFFFF;
   font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.login-register-card input:focus {
+  border-color: #e53e3e;
+  outline: none;
 }
 
 .login-register-card button {
   width: 100%;
   padding: 12px;
-  background-color: #FFFFFF;
+  background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
   color: #000000;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 .login-register-card button:hover {
-  background-color: #E0E0E0;
+  transform: scale(1.02);
+  background: linear-gradient(135deg, #E0E0E0 0%, #D1D5DB 100%);
 }
 
 /* Dashboard Card */
 .dashboard-card {
-  background-color: #4A5568;
-  padding: 32px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  padding: 40px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 500px; /* Slightly wider for dashboard */
+  max-width: 500px;
   text-align: center;
   margin: 0 auto;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .dashboard-card h2 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
 }
 
 .mood-buttons,
 .media-buttons {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .mood-buttons button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 20px;
-  background-color: #808080;
+  background: linear-gradient(135deg, #808080 0%, #A0A0A0 100%);
   color: #FFFFFF;
   border: none;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 .mood-buttons button:hover {
-  background-color: #A0A0A0;
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #A0A0A0 0%, #B0B0B0 100%);
 }
 
 .media-buttons button {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #28A745; /* Green buttons as per mockup */
+  background: linear-gradient(135deg, #28A745 0%, #38A169 100%);
   color: #000000;
   border: none;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.3s;
+  transition: transform 0.2s ease, opacity 0.3s ease;
 }
 
 .media-buttons button:hover {
-  opacity: 0.8;
+  transform: scale(1.1);
+  opacity: 0.9;
 }
 
 .media-buttons button.opacity-50 {
-  opacity: 0.5;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  opacity: 1;
 }
 
 .dashboard-card .start-button {
   padding: 12px 24px;
-  background-color: #FFFFFF;
+  background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
   color: #000000;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 .dashboard-card .start-button:hover {
-  background-color: #E0E0E0;
+  transform: scale(1.02);
+  background: linear-gradient(135deg, #E0E0E0 0%, #D1D5DB 100%);
 }
 
-/* Recommendations Grid */
-.recommendations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  padding: 24px;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
+/* Movie Card and Recommendations */
 .recommendation-card {
-  background-color: #4A5568;
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
   padding: 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   text-align: center;
   color: #FFFFFF;
+  animation: fadeIn 0.5s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: glow 1.5s infinite;
 }
 
 .recommendation-card .placeholder {
-  height: 180px; /* Matches the mockup's card height */
+  height: 180px;
   background-color: #333333;
   margin-bottom: 12px;
   display: flex;
@@ -264,15 +411,137 @@ nav a:hover {
   justify-content: center;
   color: #808080;
   font-size: 16px;
+  border-radius: 8px;
 }
 
 .recommendation-card h3 {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
 .recommendation-card p {
   font-size: 14px;
   color: #D3D3D3;
+}
+
+/* Profile Card */
+.profile-card {
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-card .user-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #808080;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 36px;
+  margin: 0 auto 16px;
+  transition: transform 0.3s ease;
+}
+
+.profile-card .user-icon:hover {
+  transform: scale(1.1);
+}
+
+.profile-card h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.profile-card p {
+  font-size: 16px;
+  color: #D3D3D3;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.profile-card button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.3s ease;
+  margin-top: 16px;
+}
+
+.profile-card button:hover {
+  transform: scale(1.02);
+  background: linear-gradient(135deg, #E0E0E0 0%, #D1D5DB 100%);
+}
+
+/* Watchlist */
+.watchlist-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.watchlist-container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.watchlist-grid > div {
+  animation: fadeIn 0.5s ease;
+  transition: transform 0.2s ease;
+}
+
+.watchlist-grid > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: glow 1.5s infinite;
+}
+
+.watchlist-empty {
+  text-align: center;
+  color: #D3D3D3;
+  font-size: 18px;
+  margin-top: 32px;
+}
+
+.logo-2{
+  width: 40px;
+  height: 40px;
+  background-color: #e53e3e;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFFFFF;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-2:hover {
+  transform: rotate(360deg);
+  box-shadow: 0 0 10px rgba(229, 62, 62, 0.5);
 }

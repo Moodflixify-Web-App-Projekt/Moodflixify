@@ -1,6 +1,34 @@
 import api from './api.js';
 
 export const getRecommendations = async (mood, token) => {
-    const response = await api.get(`/mood/recommendations?mood=${mood}`);
+    try {
+        const response = await api.get(`/mood/recommendations?mood=${mood}`);
+        return response.data;
+    } catch (error) {
+        // Fallback mock data if API fails
+        return {
+            movies: [
+                { tmdbId: '1', title: 'Movie 1', mood },
+                { tmdbId: '2', title: 'Movie 2', mood },
+            ],
+            series: [
+                { tmdbId: '1', title: 'Series 1', mood },
+                { tmdbId: '2', title: 'Series 2', mood },
+            ],
+            songs: [
+                { spotifyId: '1', title: 'Song 1', artist: 'Artist 1', mood },
+                { spotifyId: '2', title: 'Song 2', artist: 'Artist 2', mood },
+            ],
+        };
+    }
+};
+
+export const addToWatchlist = async (mood, type, item, token) => {
+    const response = await api.post('/mood/watchlist', { mood, type, item });
+    return response.data;
+};
+
+export const getWatchlist = async (token) => {
+    const response = await api.get('/mood/watchlist');
     return response.data;
 };

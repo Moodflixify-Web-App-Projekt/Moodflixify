@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
 import MovieCard from '../components/movieCard.jsx';
-import { getRecommendations } from '../services/mood.js';
+import { getRecommendations, addToWatchlist } from '../services/mood.js';
 import { useAuth } from '../context/authContext.jsx';
 
 // Step 1: Mood Selection Page
@@ -20,12 +20,12 @@ function MoodSelection() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-[#1A202C]">
+        <div className="dashboard-card-container">
             <div className="dashboard-card">
-                <h2>How do you feel today?</h2>
+                <h2 className="text-2xl font-bold mb-6">How do you feel today?</h2>
                 <div className="mood-buttons">
                     {moods.map((mood) => (
-                        <button key={mood} onClick={() => handleMoodSelect(mood)}>
+                        <button key={mood} onClick={() => handleMoodSelect(mood)} className="mood-btn">
                             {mood} 😊
                         </button>
                     ))}
@@ -65,9 +65,9 @@ function MediaSelection() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-[#1A202C]">
+        <div className="dashboard-card-container">
             <div className="dashboard-card">
-                <h2>Choose your Media</h2>
+                <h2 className="text-2xl font-bold mb-6">Choose your Media</h2>
                 <div className="media-buttons">
                     {mediaTypes.map((media) => (
                         <button
@@ -79,7 +79,7 @@ function MediaSelection() {
                         </button>
                     ))}
                 </div>
-                <button className="start-button" onClick={handleContinue}>
+                <button className="start-button mt-6" onClick={handleContinue}>
                     Start
                 </button>
             </div>
@@ -89,7 +89,7 @@ function MediaSelection() {
 
 // Step 3: Recommendations Page
 function Recommendations() {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
     const navigate = useNavigate();
     const { state } = useLocation();
     const [selectedMood] = useState(state?.mood || 'Happy');
@@ -104,16 +104,23 @@ function Recommendations() {
         }
         const fetchData = async () => {
             try {
-                const data = await getRecommendations(selectedMood, user.token);
+                const data = await getRecommendations(selectedMood, token);
                 setRecommendations(data);
             } catch (error) {
                 setError('Failed to load recommendations');
             }
         };
-        fetchData().then(() => {
+        fetchData();
+    }, [selectedMood, user, token, navigate]);
 
-        });
-    }, [selectedMood, user, navigate]);
+    const handleAddToWatchlist = async (type, item) => {
+        try {
+            await addToWatchlist(selectedMood, type, item, token);
+            alert(`${item.title} added to watchlist!`);
+        } catch (error) {
+            setError('Failed to add to watchlist');
+        }
+    };
 
     const filteredRecommendations = {
         movies: selectedMedia.includes('Movies') ? recommendations.movies : [],
@@ -122,30 +129,65 @@ function Recommendations() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-[#1A202C]">
-            <div className="w-full max-w-4xl">
+        <div className="min-h-screen p-4 bg-[#1A202C]">
+            <div className="w-full max-w-5xl mx-auto">
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-                <h2 className="text-2xl font-bold mb-4 text-center">Recommendations for {selectedMood} Mood</h2>
-                <div className="recommendations-grid">
-                    {filteredRecommendations.movies.map((movie) => (
-                        <div key={movie.tmdbId} className="recommendation-card">
-                            <div className="placeholder">Infotext</div>
-                            <h3>{movie.title}</h3>
-                        </div>
-                    ))}
-                    {filteredRecommendations.series.map((series) => (
-                        <div key={series.tmdbId} className="recommendation-card">
-                            <div className="placeholder">Infotext</div>
-                            <h3>{series.title}</h3>
-                        </div>
-                    ))}
-                    {filteredRecommendations.songs.map((song) => (
-                        <div key={song.spotifyId} className="recommendation-card">
-                            <div className="placeholder">Infotext</div>
-                            <h3>{song.title}</h3>
-                            <p>{song.artist}</p>
-                        </div>
-                    ))}
+                <h2 className="text-2xl font-bold mb-6 text-center">Recommendations for {selectedMood} Mood</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-center">MOVIES</h3>
+                        {filteredRecommendations.movies.length > 0 ? (
+                            filteredRecommendations.movies.map((movie) => (
+                                <div key={movie.tmdbId} className="relative mb-4">
+                                    <MovieCard item={movie} type="movie" />
+                                    <button
+                                        onClick={() => handleAddToWatchlist('movie', movie)}
+                                        className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-400 text-center">No movies to display</p>
+                        )}
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-center">SERIES</h3>
+                        {filteredRecommendations.series.length > 0 ? (
+                            filteredRecommendations.series.map((series) => (
+                                <div key={series.tmdbId} className="relative mb-4">
+                                    <MovieCard item={series} type="series" />
+                                    <button
+                                        onClick={() => handleAddToWatchlist('series', series)}
+                                        className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-400 text-center">No series to display</p>
+                        )}
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-semibold mb-4 text-center">MUSIC</h3>
+                        {filteredRecommendations.songs.length > 0 ? (
+                            filteredRecommendations.songs.map((song) => (
+                                <div key={song.spotifyId} className="relative mb-4">
+                                    <MovieCard item={song} type="song" />
+                                    <button
+                                        onClick={() => handleAddToWatchlist('song', song)}
+                                        className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-400 text-center">No music to display</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
