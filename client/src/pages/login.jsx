@@ -22,7 +22,7 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-[#1A202C]">
+        <div className="login-register-card-container">
             <div className="login-register-card">
                 <div className="user-icon">👤</div>
                 <div className="logo">M</div>
