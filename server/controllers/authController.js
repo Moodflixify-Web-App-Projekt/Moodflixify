@@ -10,9 +10,9 @@ exports.register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({ username, email, password: hashedPassword });
-        await User.save(user);
+        await user.save();
         const token = generateToken(user);
-        res.status(201).json({ token });
+        res.status(201).json({ token, user });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
