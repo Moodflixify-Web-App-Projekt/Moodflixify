@@ -385,10 +385,11 @@ nav a:hover {
 }
 
 /* Movie Card and Recommendations */
-.recommendation-card {
+.movie-card {
   background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
   padding: 16px;
   border-radius: 12px;
+  width: 300px;
   text-align: center;
   color: #FFFFFF;
   animation: fadeIn 0.5s ease;
@@ -396,13 +397,7 @@ nav a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.recommendation-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  animation: glow 1.5s infinite;
-}
-
-.recommendation-card .placeholder {
+.movie-card .placeholder {
   height: 180px;
   background-color: #333333;
   margin-bottom: 12px;
@@ -414,13 +409,13 @@ nav a:hover {
   border-radius: 8px;
 }
 
-.recommendation-card h3 {
-  font-size: 16px;
-  font-weight: 600;
+.movie-card h3 {
+  font-size: 20px;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
-.recommendation-card p {
+.movie-card p {
   font-size: 14px;
   color: #D3D3D3;
 }
