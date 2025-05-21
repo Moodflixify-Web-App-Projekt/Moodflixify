@@ -144,7 +144,7 @@ function Recommendations() {
                                         onClick={() => handleAddToWatchlist('movie', movie)}
                                         className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
                                     >
-                                        +
+                                        Add to watchlist
                                     </button>
                                 </div>
                             ))
@@ -162,7 +162,7 @@ function Recommendations() {
                                         onClick={() => handleAddToWatchlist('series', series)}
                                         className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
                                     >
-                                        +
+                                        Add to watchlist
                                     </button>
                                 </div>
                             ))
@@ -180,7 +180,7 @@ function Recommendations() {
                                         onClick={() => handleAddToWatchlist('song', song)}
                                         className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
                                     >
-                                        +
+                                        Add to watchlist
                                     </button>
                                 </div>
                             ))
