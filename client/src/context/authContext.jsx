@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { loginUser, registerUser } from '../services/auth.js';
+import { loginUser, registerUser, getUserProfile } from '../services/auth.js'; // Import getUserProfile
 
 const AuthContext = createContext();
 
@@ -8,20 +8,29 @@ export function AuthProvider({ children }) {
     const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
-        if (token) {
-            setUser({ id: 'user_id_placeholder' }); // Simplified; fetch user data if needed
-        }
-    }, [token]);
+        const fetchUserData = async () => {
+            if (token) {
+                try {
+                    const userData = await getUserProfile();
+                    setUser(userData);
+                } catch (error) {
+                    console.error("Failed to fetch user profile on context load:", error);
+                    logout(); // Log out if token is invalid or profile can't be fetched
+                }
+            }
+        };
+        fetchUserData();
+    }, [token]); // Rerun when token changes
 
     const login = async (email, password) => {
         try {
             const data = await loginUser(email, password);
             setToken(data.token);
-            setUser({ id: data.user.id, username: data.user.username, email: data.user.email });
+            // On successful login, the backend returns user object. Use that directly.
+            setUser({ id: data.user._id, username: data.user.username, email: data.user.email });
             localStorage.setItem('token', data.token);
         } catch (error) {
-
-            throw new Error('Login failed');
+            throw new Error(error.response?.data?.message || 'Login failed');
         }
     };
 
@@ -29,10 +38,11 @@ export function AuthProvider({ children }) {
         try {
             const data = await registerUser(username, email, password);
             setToken(data.token);
-            setUser({ id: data.user.id, username: data.user.username, email: data.user.email });
+            // On successful registration, the backend returns user object. Use that directly.
+            setUser({ id: data.user._id, username: data.user.username, email: data.user.email });
             localStorage.setItem('token', data.token);
         } catch (error) {
-            throw new Error(error.response.data.message);
+            throw new Error(error.response?.data?.message || 'Registration failed');
         }
     };
 
