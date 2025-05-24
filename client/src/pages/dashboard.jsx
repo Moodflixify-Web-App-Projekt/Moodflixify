@@ -116,7 +116,7 @@ function Recommendations() {
     const handleAddToWatchlist = async (type, item) => {
         try {
             await addToWatchlist(selectedMood, type, item, token);
-            alert(`${item.title} added to watchlist!`);
+            alert('Added to Watchlist');
         } catch (error) {
             setError('Failed to add to watchlist');
         }
