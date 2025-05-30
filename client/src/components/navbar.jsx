@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.jsx';
 import { useState } from 'react';
+import logo from '../assets/Logo02.drawio.png';
 
 function Navbar() {
     const { user, logout } = useAuth();
@@ -15,7 +16,7 @@ function Navbar() {
     return (
         <nav className="bg-[#A3BFFA] p-4 flex justify-between items-center">
             <Link to="/" className="text-2xl font-bold text-white">
-                <span className="logo-2">M</span>
+                <img src={logo} className="logo" alt="logo" />
             </Link>
             <div className="relative">
                 {user ? (

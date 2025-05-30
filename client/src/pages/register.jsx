@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.jsx';
+import logo from '../assets/Logo02.drawio.png';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -24,7 +25,7 @@ function Register() {
         <div className="login-register-card-container">
             <div className="login-register-card">
                 <div className="user-icon">👤</div>
-                <div className="logo">M</div>
+                <img src={logo} className="logo" alt="logo" />
                 <h2>Register</h2>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form onSubmit={handleSubmit}>

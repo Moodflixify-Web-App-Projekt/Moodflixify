@@ -5,7 +5,7 @@ const moodConfig = {
         spotifyQuery: 'happy upbeat pop',
     },
     Sad: {
-        tmdbMovieGenres: '18,10749', // Drama, Romance
+        tmdbMovieGenres: '18', // Drama
         tmdbSeriesGenres: '18', // Drama
         spotifyQuery: 'sad acoustic slow',
     },
