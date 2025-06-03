@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.jsx';
-import { getWatchlist } from '../services/mood.js';
+// NEW: Import the new service functions for universal removal and emptying all
+import { getWatchlist, universalRemoveFromWatchlist, emptyAllWatchlists } from '../services/mood.js';
 import MovieCard from '../components/movieCard.jsx';
 
 function Watchlist() {
@@ -36,18 +37,72 @@ function Watchlist() {
         ...entry.songs.map((item) => ({ ...item, type: 'song', mood: entry.mood })),
     ]);
 
+    // NEW: Function to handle removing a single item from the watchlist
+    const handleRemoveFromWatchlist = async (itemId) => {
+        try {
+            // Call the new universal backend service to remove the item, passing only itemId
+            await universalRemoveFromWatchlist(itemId);
+            // After successful removal, re-fetch the watchlist to update the UI
+            const updatedWatchlist = await getWatchlist(token);
+            setWatchlist(updatedWatchlist);
+            setError(''); // Clear any previous errors
+        } catch (err) {
+            console.error("Error removing from watchlist:", err);
+            setError('Failed to remove item from watchlist');
+        }
+    };
+
+    // NEW: Function to handle emptying the entire watchlist
+    const handleEmptyWatchlist = async () => {
+        try {
+            // Call the backend service to empty all watchlists for the user
+            await emptyAllWatchlists();
+            // After successful emptying, re-fetch the watchlist to update the UI (it should now be empty)
+            const updatedWatchlist = await getWatchlist(token);
+            setWatchlist(updatedWatchlist);
+            setError(''); // Clear any previous errors
+        } catch (err) {
+            console.error("Error emptying watchlist:", err);
+            setError('Failed to empty watchlist');
+        }
+    };
+
     return (
         <div className="watchlist-container">
-            <h2>Your Watchlist</h2>
+            {/* NEW: Wrapper div for the title and the "Empty Watchlist" button */}
+            <div className="flex justify-between items-center mb-4">
+                <h2>Your Watchlist</h2>
+                {/* NEW: Empty Watchlist button, shown only if there are items */}
+                {allItems.length > 0 && (
+                    <button
+                        onClick={handleEmptyWatchlist}
+                        className="empty-button"
+                    >
+                        <span className="mr-2">🗑️</span> Empty Watchlist
+                    </button>
+                )}
+            </div>
+
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             {allItems.length > 0 ? (
                 <div className="watchlist-grid">
                     {allItems.map((item, index) => (
-                        <MovieCard key={index} item={item} type={item.type} />
+                        // NEW: Wrap MovieCard in a div to allow relative positioning for the remove button
+                        <div key={index} className="watchlist-grid"> {/* Original key={index} preserved */}
+                            <MovieCard item={item} type={item.type} />
+                            {/* NEW: "X" button for individual item removal */}
+                            <button
+                                onClick={() => handleRemoveFromWatchlist(item._id)} // Pass item._id for removal
+                                className="x-button"
+                            >
+                                Remove from watchlist ✖
+                            </button>
+                        </div>
                     ))}
                 </div>
             ) : (
-                <p className="watchlist-empty">No film added yet</p>
+                // NEW: Updated message for empty watchlist
+                <p className="watchlist-empty">No items added to your watchlist yet.</p>
             )}
         </div>
     );
