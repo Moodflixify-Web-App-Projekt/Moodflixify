@@ -53,7 +53,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px;
+  height: 80px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -74,27 +74,35 @@ nav a:last-child {
 
 nav a:hover {
   transform: scale(1.05);
-  background: linear-gradient(135deg, #5A6B88 0%, #6B7280 100%);
+  background: none;
+}
+
+.nav-buttons:hover {
+  transform: scale(1.05);
+  background: rgba(229, 62, 62, 0.5) ;
+}
+
+.nav-buttons-logout{
+  cursor: pointer;
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
-  background-color: #e53e3e;
-  border: 2px solid #FFFFFF;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #FFFFFF;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .logo:hover {
   transform: rotate(360deg);
   box-shadow: 0 0 10px rgba(229, 62, 62, 0.5);
+}
+
+.hintergrund-logo{
+  background: none;
 }
 
 /* Dropdown Menu */
@@ -110,6 +118,10 @@ nav a:hover {
   margin-top: 8px;
   animation: fadeIn 0.3s ease;
   padding: 8px 0;
+}
+
+.nav-user-icon{
+  cursor: pointer;
 }
 
 .dropdown-menu a,
@@ -161,7 +173,8 @@ nav a:hover {
   padding: 40px;
   border-radius: 12px;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
+  height: 300px;
   text-align: center;
   animation: fadeIn 0.5s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -181,19 +194,26 @@ nav a:hover {
 }
 
 .play-button {
-  width: 60px;
-  height: 60px;
+  width: 150px;
+  height: 150px;
   background-color: #FFFFFF;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
-  color: #000000;
   cursor: pointer;
   transition: transform 0.3s ease;
   margin: 0 auto;
   animation: borderPulse 2s infinite;
+}
+
+.play-button p {
+  font-size: 70px;
+  color: #000000;
+  cursor: pointer;
+  align-items: center;
+  padding-bottom: 37px;
+  padding-left: 10px;
 }
 
 .play-button:hover {
@@ -233,10 +253,9 @@ nav a:hover {
 }
 
 .login-register-card .logo {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   background-color: #e53e3e;
-  border: 2px solid #FFFFFF;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -262,8 +281,10 @@ nav a:hover {
 }
 
 .login-register-card input {
-  width: 100%;
-  padding: 12px;
+  width: 94%;
+  height: 40px;
+  padding-left: 8px;
+  padding-right: 8px;
   margin-bottom: 20px;
   border: 1px solid #808080;
   border-radius: 8px;
@@ -302,7 +323,8 @@ nav a:hover {
   padding: 40px;
   border-radius: 12px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
+  height: 300px;
   text-align: center;
   margin: 0 auto;
   animation: fadeIn 0.5s ease;
@@ -325,13 +347,13 @@ nav a:hover {
 }
 
 .mood-buttons button {
-  padding: 12px 24px;
-  border-radius: 20px;
+  padding: 30px 40px;
+  border-radius: 40px;
   background: linear-gradient(135deg, #808080 0%, #A0A0A0 100%);
   color: #FFFFFF;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   transition: transform 0.2s ease, background 0.3s ease;
 }
@@ -342,14 +364,14 @@ nav a:hover {
 }
 
 .media-buttons button {
-  width: 80px;
-  height: 80px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   background: linear-gradient(135deg, #28A745 0%, #38A169 100%);
   color: #000000;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 25px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -368,13 +390,13 @@ nav a:hover {
 }
 
 .dashboard-card .start-button {
-  padding: 12px 24px;
+  padding: 20px 40px;
   background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
   color: #000000;
   border: none;
-  border-radius: 8px;
+  border-radius: 15px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   transition: transform 0.2s ease, background 0.3s ease;
 }
@@ -505,16 +527,6 @@ nav a:hover {
   padding-left: 10px;
 }
 
-.watchlist-grid > div {
-  animation: fadeIn 0.5s ease;
-  transition: transform 0.2s ease;
-  padding: 20px;
-  height: 404px;
-  width: 190px;
-  border-radius: 12px;
-  background-color: #4A5568;
-}
-
 .watchlist-grid > div:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
@@ -527,22 +539,48 @@ nav a:hover {
   margin-top: 32px;
 }
 
-.logo-2{
-  width: 40px;
-  height: 40px;
-  background-color: #e53e3e;
-  border: 2px solid #FFFFFF;
+/**.logo-2{
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #FFFFFF;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+}**/
 
 .logo-2:hover {
   transform: rotate(360deg);
   box-shadow: 0 0 10px rgba(229, 62, 62, 0.5);
+}
+
+.empty-button{
+  height: 40px;
+  width: 160px;
+  border-radius: 10px;
+  border: none;
+  background: #5A6B88;
+  color: #FFFFFF;
+  font-family: 'Segoe UI', sans-serif;
+  cursor:  pointer;
+}
+
+.x-button{
+  height: 40px;
+  width: 230px;
+  border: none;
+  background: none;
+  color: #FFFFFF;
+  font-family: 'Segoe UI', sans-serif;
+  cursor:  pointer;
+}
+
+.add-button{
+  height: 40px;
+  width: 30px;
+  border: none;
+  background: none;
+  color: #FFFFFF;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: pointer;
 }

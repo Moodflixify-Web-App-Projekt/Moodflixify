@@ -9,14 +9,20 @@ function MoodSelection() {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const moods = ['Happy', 'Angry', 'Relaxed', 'Stressed', 'Sad'];
+    const moods = [
+        { name: 'Happy', emoji: '😊'},
+        { name: 'Angry', emoji: '👿'},
+        { name: 'Relaxed', emoji: '😎'},
+        { name: 'Stressed', emoji: '🙀'},
+        { name: 'Sad', emoji: '😭'}
+    ];
 
-    const handleMoodSelect = (mood) => {
+    const handleMoodSelect = (moodName) => {
         if (!user) {
             navigate('/login');
             return;
         }
-        navigate('/dashboard/media', { state: { mood } });
+        navigate('/dashboard/media', { state: { mood: moodName } });
     };
 
     return (
@@ -25,8 +31,8 @@ function MoodSelection() {
                 <h2 className="text-2xl font-bold mb-6">How do you feel today?</h2>
                 <div className="mood-buttons">
                     {moods.map((mood) => (
-                        <button key={mood} onClick={() => handleMoodSelect(mood)} className="mood-btn">
-                            {mood} 😊
+                        <button key={mood.name} onClick={() => handleMoodSelect(mood.name)} className="mood-btn">
+                            {mood.name} {mood.emoji}
                         </button>
                     ))}
                 </div>
@@ -142,7 +148,7 @@ function Recommendations() {
                                     <MovieCard item={movie} type="movie" />
                                     <button
                                         onClick={() => handleAddToWatchlist('movie', movie)}
-                                        className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
+                                        className="add-button"
                                     >
                                         Add to watchlist
                                     </button>
@@ -160,7 +166,7 @@ function Recommendations() {
                                     <MovieCard item={series} type="series" />
                                     <button
                                         onClick={() => handleAddToWatchlist('series', series)}
-                                        className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
+                                        className="add-button"
                                     >
                                         Add to watchlist
                                     </button>
@@ -178,7 +184,7 @@ function Recommendations() {
                                     <MovieCard item={song} type="song" />
                                     <button
                                         onClick={() => handleAddToWatchlist('song', song)}
-                                        className="absolute top-2 right-2 bg-[#38a169] text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#2f855a]"
+                                        className="add-button"
                                     >
                                         Add to watchlist
                                     </button>

@@ -19,7 +19,7 @@ function Home() {
                 <h1>Welcome to Moodflixify</h1>
                 <p>Entertainment that suits every mood</p>
                 <div className="play-button" onClick={handlePlay}>
-                    ▶
+                    <p> ▶ </p>
                 </div>
             </div>
         </div>

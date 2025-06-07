@@ -15,7 +15,7 @@ function Navbar() {
 
     return (
         <nav className="bg-[#A3BFFA] p-4 flex justify-between items-center">
-            <Link to="/" className="text-2xl font-bold text-white">
+            <Link to="/" className="hintergrund-logo">
                 <img src={logo} className="logo" alt="logo" />
             </Link>
             <div className="relative">
@@ -23,7 +23,7 @@ function Navbar() {
                     <>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            className="bg-[#4A5568] text-white px-4 py-2 rounded hover:bg-[#5A6B88] flex items-center"
+                            className="nav-user-icon"
                         >
                             👤 {user.username}
                         </button>
@@ -31,21 +31,21 @@ function Navbar() {
                             <div className="absolute right-0 mt-2 w-48 bg-[#4A5568] rounded-lg shadow-lg z-10">
                                 <Link
                                     to="/profile"
-                                    className="block px-4 py-2 text-white hover:bg-[#5A6B88]"
+                                    className="nav-buttons"
                                     onClick={() => setIsDropdownOpen(false)}
                                 >
                                     Profile
                                 </Link>
                                 <Link
                                     to="/watchlist"
-                                    className="block px-4 py-2 text-white hover:bg-[#5A6B88]"
+                                    className="nav-buttons"
                                     onClick={() => setIsDropdownOpen(false)}
                                 >
                                     Watchlist
                                 </Link>
                                 <button
                                     onClick={handleLogout}
-                                    className="block w-full text-left px-4 py-2 text-white hover:bg-[#5A6B88]"
+                                    className="nav-buttons-logout"
                                 >
                                     Logout
                                 </button>
@@ -54,10 +54,10 @@ function Navbar() {
                     </>
                 ) : (
                     <div className="flex items-center">
-                        <Link to="/login" className="bg-[#4A5568] text-white px-4 py-2 rounded hover:bg-[#5A6B88] mr-2">
+                        <Link to="/login" className="nav-buttons">
                             Login
                         </Link>
-                        <Link to="/register" className="bg-[#4A5568] text-white px-4 py-2 rounded hover:bg-[#5A6B88]">
+                        <Link to="/register" className="nav-buttons">
                             Register
                         </Link>
                     </div>
