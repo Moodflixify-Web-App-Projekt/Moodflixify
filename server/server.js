@@ -16,7 +16,11 @@ connectDB().then(() => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://moodflixify.netlify.app/',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders:['Content-type', 'Authorization']
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
