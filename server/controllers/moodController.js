@@ -7,7 +7,7 @@ const moodConfig = require('../config/moodConfig');
 
 const getSpotifyToken = async () => {
     const response = await axios.post(
-        'https://accounts.spotify.com/api/token', // Corrected Spotify API endpoint
+        'https://accounts.spotify.com/api/token', // THIS IS THE CORRECT URL
         'grant_type=client_credentials',
         {
             headers: {
