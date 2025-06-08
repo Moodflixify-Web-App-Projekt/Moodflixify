@@ -57,6 +57,7 @@ nav {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Default styles for nav links (login/register) */
 nav a {
   color: #FFFFFF;
   text-decoration: none;
@@ -66,22 +67,23 @@ nav a {
   border-radius: 8px;
   transition: transform 0.2s ease, background 0.3s ease;
   margin-right: 12px;
+  display: inline-flex; /* Ensure consistency with menu buttons */
+  align-items: center;
+  justify-content: center;
 }
 
 nav a:last-child {
   margin-right: 0;
 }
 
-nav a:hover {
-  transform: scale(1.05);
-  background: none;
-}
-
+/* Common hover for nav-buttons (used by login/register and menu items) */
 .nav-buttons:hover {
-  transform: scale(1.05);
-  background: rgba(229, 62, 62, 0.5) ;
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  background: linear-gradient(135deg, #6B7280 0%, #4A5568 100%); /* Slightly lighter background */
 }
 
+/* Specific logout button styles - This applies to a general logout button if it exists outside the horizontal menu */
 .nav-buttons-logout{
   cursor: pointer;
 }
@@ -105,6 +107,88 @@ nav a:hover {
   background: none;
 }
 
+.nav-user-icon {
+  background: none;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* NEW: Container for user icon and horizontally expanding menu */
+.user-profile-menu-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin-left: auto;
+}
+
+.user-profile-menu-wrapper.menu-expanded {
+  transform: translateX(-200px);
+}
+
+.horizontal-menu-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-out;
+}
+
+.user-profile-menu-wrapper.menu-expanded .horizontal-menu-items {
+  max-width: 100px;
+  opacity: 1;
+}
+
+.horizontal-menu-items .nav-buttons,
+.horizontal-menu-items .nav-buttons-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 10px 15px;
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.horizontal-menu-items .nav-buttons {
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%); /* Darker gradient */
+  color: #FFFFFF;
+}
+
+.horizontal-menu-items .nav-buttons:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  background: linear-gradient(135deg, #5A6B88 0%, #6B7280 100%); /* Lighter on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific styles for Logout button in the horizontal menu */
+.horizontal-menu-items .nav-buttons-logout {
+  background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%); /* Start with similar background to other nav buttons */
+  color: #FFFFFF;
+  border: none;
+}
+
+.horizontal-menu-items .nav-buttons-logout:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); /* Prominent red gradient on hover */
+  color: #FFFFFF; /* Ensure white text on red background */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 /* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
@@ -118,10 +202,6 @@ nav a:hover {
   margin-top: 8px;
   animation: fadeIn 0.3s ease;
   padding: 8px 0;
-}
-
-.nav-user-icon{
-  cursor: pointer;
 }
 
 .dropdown-menu a,
@@ -411,7 +491,8 @@ nav a:hover {
   background: linear-gradient(135deg, #4A5568 0%, #5A6B88 100%);
   padding: 16px;
   border-radius: 12px;
-  width: 300px;
+  width: 200px;
+  height: 450px;
   text-align: center;
   color: #FFFFFF;
   animation: fadeIn 0.5s ease;
@@ -440,6 +521,21 @@ nav a:hover {
 .movie-card p {
   font-size: 14px;
   color: #D3D3D3;
+}
+
+.movie-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center cards if there are not enough to fill a row */
+  gap: 20px; /* Gap between movie cards */
+  margin-bottom: 24px; /* Space below each category's grid */
+}
+
+.movie-card-item {
+  margin-bottom: 0; /* Override any default margin-bottom from Tailwind */
+  display: flex; /* Make the item itself a flex container */
+  flex-direction: column; /* Stack MovieCard and button vertically */
+  align-items: center; /* Center content horizontally */
 }
 
 /* Profile Card */
@@ -518,18 +614,16 @@ nav a:hover {
 }
 
 .watchlist-grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  height: 500px;
+  gap: 20px;
   border-radius: 12px;
-  padding-top: 10px;
-  padding-left: 10px;
+  padding-top: 20px;
+  padding-left: 20px;
 }
 
-.watchlist-grid > div:hover {
+.watchlist-grid-2 > div:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .watchlist-empty {
@@ -573,14 +667,45 @@ nav a:hover {
   color: #FFFFFF;
   font-family: 'Segoe UI', sans-serif;
   cursor:  pointer;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  position: relative; /* Needed for ::after positioning */
+  overflow: hidden; /* Hide overflow of the underline */
 }
 
-.add-button{
+.x-button::after {
+  content: '';
+  position: absolute;
+  width: 0; /* Start with no width */
+  height: 2px;
+  background-color: #e53e3e; /* Red color for the underline */
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s ease-out; /* Animate width change */
+}
+
+.x-button:hover::after {
+  width: 100%; /* Expand to full width on hover */
+}
+
+.add-button {
   height: 40px;
-  width: 30px;
+  width: 100%; /* Make button full width of the movie card */
+  margin-top: 10px; /* Space from the movie card */
   border: none;
-  background: none;
+  background: linear-gradient(135deg, #28A745 0%, #38A169 100%); /* Green gradient */
   color: #FFFFFF;
   font-family: 'Segoe UI', sans-serif;
   cursor: pointer;
+  border-radius: 8px; /* Rounded corners */
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.add-button:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  background: linear-gradient(135deg, #38A169 0%, #28A745 100%); /* Invert gradient on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
 }

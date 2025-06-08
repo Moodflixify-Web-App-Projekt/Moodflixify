@@ -116,7 +116,9 @@ function Recommendations() {
                 setError('Failed to load recommendations');
             }
         };
-        fetchData();
+        fetchData().then(() => {
+            console.log('Recommendations Fetched');
+        }).catch(error => console.error("Sorry couldn't fetch recommendations", error));
     }, [selectedMood, user, token, navigate]);
 
     const handleAddToWatchlist = async (type, item) => {
@@ -143,17 +145,19 @@ function Recommendations() {
                     <div>
                         <h3 className="text-xl font-semibold mb-4 text-center">MOVIES</h3>
                         {filteredRecommendations.movies.length > 0 ? (
-                            filteredRecommendations.movies.map((movie) => (
-                                <div key={movie.tmdbId} className="relative mb-4">
-                                    <MovieCard item={movie} type="movie" />
-                                    <button
-                                        onClick={() => handleAddToWatchlist('movie', movie)}
-                                        className="add-button"
-                                    >
-                                        Add to watchlist
-                                    </button>
-                                </div>
-                            ))
+                            <div className="movie-card-grid"> {/* NEW: Wrapper div for flex layout */}
+                                {filteredRecommendations.movies.map((movie) => (
+                                    <div key={movie.tmdbId} className="relative movie-card-item"> {/* MODIFIED CLASS */}
+                                        <MovieCard item={movie} type="movie" />
+                                        <button
+                                            onClick={() => handleAddToWatchlist('movie', movie)}
+                                            className="add-button"
+                                        >
+                                            Add to watchlist
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         ) : (
                             <p className="text-gray-400 text-center">No movies to display</p>
                         )}
@@ -161,17 +165,19 @@ function Recommendations() {
                     <div>
                         <h3 className="text-xl font-semibold mb-4 text-center">SERIES</h3>
                         {filteredRecommendations.series.length > 0 ? (
-                            filteredRecommendations.series.map((series) => (
-                                <div key={series.tmdbId} className="relative mb-4">
-                                    <MovieCard item={series} type="series" />
-                                    <button
-                                        onClick={() => handleAddToWatchlist('series', series)}
-                                        className="add-button"
-                                    >
-                                        Add to watchlist
-                                    </button>
-                                </div>
-                            ))
+                            <div className="movie-card-grid"> {/* NEW: Wrapper div for flex layout */}
+                                {filteredRecommendations.series.map((series) => (
+                                    <div key={series.tmdbId} className="relative movie-card-item"> {/* MODIFIED CLASS */}
+                                        <MovieCard item={series} type="series" />
+                                        <button
+                                            onClick={() => handleAddToWatchlist('series', series)}
+                                            className="add-button"
+                                        >
+                                            Add to watchlist
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         ) : (
                             <p className="text-gray-400 text-center">No series to display</p>
                         )}
@@ -179,17 +185,19 @@ function Recommendations() {
                     <div>
                         <h3 className="text-xl font-semibold mb-4 text-center">MUSIC</h3>
                         {filteredRecommendations.songs.length > 0 ? (
-                            filteredRecommendations.songs.map((song) => (
-                                <div key={song.spotifyId} className="relative mb-4">
-                                    <MovieCard item={song} type="song" />
-                                    <button
-                                        onClick={() => handleAddToWatchlist('song', song)}
-                                        className="add-button"
-                                    >
-                                        Add to watchlist
-                                    </button>
-                                </div>
-                            ))
+                            <div className="movie-card-grid"> {/* NEW: Wrapper div for flex layout */}
+                                {filteredRecommendations.songs.map((song) => (
+                                    <div key={song.spotifyId} className="relative movie-card-item"> {/* MODIFIED CLASS */}
+                                        <MovieCard item={song} type="song" />
+                                        <button
+                                            onClick={() => handleAddToWatchlist('song', song)}
+                                            className="add-button"
+                                        >
+                                            Add to watchlist
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         ) : (
                             <p className="text-gray-400 text-center">No music to display</p>
                         )}
