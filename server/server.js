@@ -17,7 +17,7 @@ connectDB().then(() => {
 
 // Middleware
 app.use(cors({
-    origin: 'https://moodflixify.netlify.app',
+    origin: 'https://moodflixify.netlify.app/' || 'http://localhost:5173/',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders:['Content-type', 'Authorization']
 }));
