@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.jsx';
-// NEW: Import the new service functions for universal removal and emptying all
 import { getWatchlist, universalRemoveFromWatchlist, emptyAllWatchlists } from '../services/mood.js';
 import MovieCard from '../components/movieCard.jsx';
 
@@ -71,7 +70,7 @@ function Watchlist() {
         <div className="watchlist-container">
             {/* NEW: Wrapper div for the title and the "Empty Watchlist" button */}
             <div className="flex justify-between items-center mb-4">
-                <h2>Your Watchlist</h2>
+                <h2>Your Watchlist/Playlist</h2>
                 {/* NEW: Empty Watchlist button, shown only if there are items */}
                 {allItems.length > 0 && (
                     <button
@@ -88,7 +87,7 @@ function Watchlist() {
                 <div className="watchlist-grid">
                     {allItems.map((item, index) => (
                         // NEW: Wrap MovieCard in a div to allow relative positioning for the remove button
-                        <div key={index} className="watchlist-grid"> {/* Original key={index} preserved */}
+                        <div key={index} className="watchlist-grid-2"> {/* Original key={index} preserved */}
                             <MovieCard item={item} type={item.type} />
                             {/* NEW: "X" button for individual item removal */}
                             <button
@@ -102,7 +101,7 @@ function Watchlist() {
                 </div>
             ) : (
                 // NEW: Updated message for empty watchlist
-                <p className="watchlist-empty">No items added to your watchlist yet.</p>
+                <p className="watchlist-empty">No items added to your watchlist/playlist yet.</p>
             )}
         </div>
     );

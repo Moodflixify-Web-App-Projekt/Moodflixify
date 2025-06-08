@@ -68,7 +68,7 @@ function Profile() {
                     </>
                 )}
                 <button onClick={() => navigate('/watchlist')}>
-                    View Watchlist
+                    View Watchlist/Playlist
                 </button>
             </div>
         </div>
