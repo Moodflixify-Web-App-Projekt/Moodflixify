@@ -77,7 +77,7 @@ function Watchlist() {
                         onClick={handleEmptyWatchlist}
                         className="empty-button"
                     >
-                        <span className="mr-2">🗑️</span> Empty Watchlist
+                        <span className="mr-2">🗑️</span> Empty Watchlist/Playlist
                     </button>
                 )}
             </div>
@@ -94,7 +94,7 @@ function Watchlist() {
                                 onClick={() => handleRemoveFromWatchlist(item._id)} // Pass item._id for removal
                                 className="x-button"
                             >
-                                Remove from watchlist ✖
+                                Remove from watchlist/playlist ✖
                             </button>
                         </div>
                     ))}
