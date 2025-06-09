@@ -193,7 +193,7 @@ function Recommendations() {
                                             onClick={() => handleAddToWatchlist('song', song)}
                                             className="add-button"
                                         >
-                                            Add to watchlist
+                                            Add to playlist
                                         </button>
                                     </div>
                                 ))}

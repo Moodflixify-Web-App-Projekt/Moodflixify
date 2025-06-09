@@ -7,13 +7,13 @@ function MovieCard({ item, type }) {
     // Construct the image URL based on type
     const imageUrl = (type === 'movie' || type === 'series') && item.poster_path
         ? `${TMDB_IMAGE_BASE_URL}${IMAGE_SIZE}${item.poster_path}`
-        : (type === 'song' && item.album && item.album.images && item.album.images.length > 0)
-            ? item.album.images[0].url || (item.album.images[1] ? item.album.images[1].url : null)
+        : (type === 'song' && item.album_image_url)
+            ? item.album_image_url
             : null;
 
     return (
         <div className="movie-card">
-            <div className="h-48 bg-gray-700 mb-2 flex items-center justify-center text-gray-400 text-lg overflow-hidden">
+            <div className="movie-card-image-wrapper">
                 {imageUrl ? (
                     <img
                         src={imageUrl}
@@ -25,7 +25,12 @@ function MovieCard({ item, type }) {
                 )}
             </div>
             <h3 className="text-lg font-bold">{item.title || item.name}</h3>
-            {type === 'song' && <p className="text-sm text-gray-300">Artist: {item.artist}</p>}
+            {type === 'song' && item.artists && item.artists.length > 0 && (
+                <p className="text-sm text-gray-300">Artist: {item.artists.join(', ')}</p>
+            )}
+            {(type === 'movie' || type === 'series') && item.director && ( // UPDATED: Display director for both movies and series
+                <p className="text-sm text-gray-300">Director: {item.director}</p>
+            )}
             <p>Mood: {item.mood}</p>
         </div>
     );
