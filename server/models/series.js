@@ -7,6 +7,7 @@ const seriesSchema = new mongoose.Schema({
     genre_ids: [Number],
     tmdb_id: { type: String, unique: true }, // Changed from Number to String
     poster_path: String, // Added to store poster path
+    director: String,
 });
 
 module.exports = mongoose.model('Series', seriesSchema);

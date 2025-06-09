@@ -29,26 +29,65 @@ const getRecommendations = async (req, res) => {
         const tmdbMovieResponse = await axios.get(
             `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=${config.tmdbMovieGenres}`
         );
-        const movies = tmdbMovieResponse.data.results.slice(0, 5).map((movie) => ({
-            tmdb_id: movie.id.toString(), // Ensure tmdb_id is a string
-            title: movie.title,
-            overview: movie.overview,
-            release_date: movie.release_date,
-            genre_ids: movie.genre_ids,
-            poster_path: movie.poster_path, // Add poster_path
-        }));
+        const moviesPromises = tmdbMovieResponse.data.results.slice(0, 5).map(async (movie) => {
+            let director = 'N/A';
+            try {
+                const creditsResponse = await axios.get(
+                    `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${process.env.TMDB_API_KEY}`
+                );
+                const directorEntry = creditsResponse.data.crew.find(crew => crew.job === 'Director');
+                if (directorEntry) {
+                    director = directorEntry.name;
+                }
+            } catch (creditError) {
+                console.warn(`Could not fetch director for movie ${movie.id}:`, creditError.message);
+            }
+
+            return {
+                tmdb_id: movie.id.toString(),
+                title: movie.title,
+                overview: movie.overview,
+                release_date: movie.release_date,
+                genre_ids: movie.genre_ids,
+                poster_path: movie.poster_path,
+                mood: mood,
+                director: director,
+            };
+        });
+        const movies = await Promise.all(moviesPromises);
 
         const tmdbSeriesResponse = await axios.get(
             `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.TMDB_API_KEY}&with_genres=${config.tmdbSeriesGenres}`
         );
-        const series = tmdbSeriesResponse.data.results.slice(0, 5).map((seriesItem) => ({
-            tmdb_id: seriesItem.id.toString(), // Ensure tmdb_id is a string
-            name: seriesItem.name,
-            overview: seriesItem.overview,
-            first_air_date: seriesItem.first_air_date,
-            genre_ids: seriesItem.genre_ids,
-            poster_path: seriesItem.poster_path, // Add poster_path
-        }));
+        const seriesPromises = tmdbSeriesResponse.data.results.slice(0, 5).map(async (seriesItem) => {
+            let director = 'N/A'; // For series, often referred to as 'Creator' or 'Director'
+            try {
+                // For TV series, credits are structured differently; often looking for 'Created By' or specific crew jobs
+                const creditsResponse = await axios.get(
+                    `https://api.themoviedb.org/3/tv/${seriesItem.id}/credits?api_key=${process.env.TMDB_API_KEY}`
+                );
+                const directorEntry = creditsResponse.data.crew.find(crew => crew.job === 'Director' || crew.job === 'Creator');
+                if (directorEntry) {
+                    director = directorEntry.name;
+                } else if (creditsResponse.data.created_by && creditsResponse.data.created_by.length > 0) {
+                    director = creditsResponse.data.created_by.map(creator => creator.name).join(', ');
+                }
+            } catch (creditError) {
+                console.warn(`Could not fetch director/creator for series ${seriesItem.id}:`, creditError.message);
+            }
+
+            return {
+                tmdb_id: seriesItem.id.toString(),
+                name: seriesItem.name,
+                overview: seriesItem.overview,
+                first_air_date: seriesItem.first_air_date,
+                genre_ids: seriesItem.genre_ids,
+                poster_path: seriesItem.poster_path,
+                mood: mood,
+                director: director, // NEW: Add director for series
+            };
+        });
+        const series = await Promise.all(seriesPromises);
 
         const spotifyToken = await getSpotifyToken();
         const spotifyResponse = await axios.get(
@@ -65,13 +104,14 @@ const getRecommendations = async (req, res) => {
             artists: song.artists.map((artist) => artist.name),
             album: song.album.name,
             duration_ms: song.duration_ms,
-            album_image_url: song.album.images[0]?.url, // Add album_image_url
+            album_image_url: song.album.images[0]?.url || null,
+            mood: mood,
         }));
 
         res.json({ movies, series, songs });
     } catch (error) {
         console.error('Error fetching recommendations:', error.message);
-        console.error('Full error:', error.response ? error.response.data : error); // Log full error response for debugging
+        console.error('Full error:', error.response ? error.response.data : error);
         res.status(500).json({ message: 'Error fetching recommendations' });
     }
 };
